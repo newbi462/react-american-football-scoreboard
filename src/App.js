@@ -41,6 +41,25 @@ function App() {
   //If I try and do a paramiter based I get "Error: Too many re-renders. React limits the number of renders to prevent an infinite loop."*/
   // ok I am just dumb had them in the wrong order :( x,y,z, != y,x,z
 
+  const [quarterTimeSec, setQuarterTimeSec] = useState(59);
+  const [quarterTimeMin, setQuarterTimeMin] = useState(14);
+  setTimeout(() => {
+    setQuarterTimeSec(quarterTimeSec - 1);
+    if (quarterTimeSec === 0) {
+      setQuarterTimeMin(quarterTimeMin - 1);
+      setQuarterTimeSec(59);
+    }
+    if (quarterTimeMin === 0 && quarterTimeSec === 0) {
+      setQuarterTimeMin(14);
+      setQuarterTimeSec(59);
+    }
+  }, 1000)
+
+
+  let qReadOut = () => {
+    return 0;
+  }
+
 
   return (
     <div className="container">
@@ -53,7 +72,7 @@ function App() {
 
             <div className="home__score">{lionsScore}</div>//was 32
           </div>
-          <div className="timer">00:03</div>
+          <div className="timer">{quarterTimeMin}:{quarterTimeSec}</div>
           <div className="away">
             <h2 className="away__name">Tigers</h2>
             <div className="away__score">{tigersScore}</div>
