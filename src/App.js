@@ -25,7 +25,7 @@ function App() {
   };*/
 
 
-  const [tigersScore, setTigersScore] = useState(3);
+  const [tigersScore, setTigersScore] = useState(0);
 /*  const scoreTouchdownTigers = () => {
     setTigersScore(tigersScore + 7);
   };
@@ -41,24 +41,30 @@ function App() {
   //If I try and do a paramiter based I get "Error: Too many re-renders. React limits the number of renders to prevent an infinite loop."*/
   // ok I am just dumb had them in the wrong order :( x,y,z, != y,x,z
 
+  const [quarterCount, setQuarterCount] = useState(1);
   const [quarterTimeSec, setQuarterTimeSec] = useState(59);
-  const [quarterTimeMin, setQuarterTimeMin] = useState(14);
+  const [quarterTimeMin, setQuarterTimeMin] = useState(0);
   setTimeout(() => {
     setQuarterTimeSec(quarterTimeSec - 1);
     if (quarterTimeSec === 0) {
       setQuarterTimeMin(quarterTimeMin - 1);
       setQuarterTimeSec(59);
     }
-    if (quarterTimeMin === 0 && quarterTimeSec === 0) {
+    if (quarterTimeMin === 0 && quarterTimeSec === 0 && quarterCount < 4) {
       setQuarterTimeMin(14);
       setQuarterTimeSec(59);
+      setQuarterCount(quarterCount + 1)// would still need half time logic;
     }
   }, 1000)
 
+  const [ballOn, setBallOn] = useState(10);
 
-  let qReadOut = () => {
-    return 0;
-  }
+  let passBottomProps = {
+    yard: ballOn,
+    q: quarterCount
+  };
+
+
 
 
   return (
@@ -78,7 +84,7 @@ function App() {
             <div className="away__score">{tigersScore}</div>
           </div>
         </div>
-        <BottomRow />
+        <BottomRow propStatetoDisplay={passBottomProps} />
       </section>
       <section className="buttons">
         <div className="homeButtons">
